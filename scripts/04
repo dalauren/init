@@ -1,0 +1,10 @@
+#!/bin/bash
+if [ ! -f /etc/crontab_md5sum ]
+then
+	md5sum /etc/crontab > /etc/crontab_md5sum
+fi
+if ! md5sum -c /etc/crontab_md5sum
+then
+	echo "File /etc/crontab has been modified" | mail -s "crontab alert" root
+	md5sum /etc/crontab > /etc/crontab_md5sum
+fi
